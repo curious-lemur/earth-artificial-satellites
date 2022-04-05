@@ -1,1 +1,1 @@
-export const Config = require('dotenv').config('src/.env');
+export const Config = require('dotenv').config();
