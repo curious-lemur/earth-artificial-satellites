@@ -1,4 +1,4 @@
-const env = require('dotenv').config();
+const env = require('dotenv').config().parsed;
 
 type ConfigType = {
   address: String,
