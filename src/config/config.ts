@@ -1,1 +1,19 @@
-export const Config = require('dotenv').config();
+const env = require('dotenv').config();
+
+type ConfigType = {
+  address: String,
+  port: String,
+  database: String,
+  dbUsername: String,
+  dbPassword: String
+}
+
+const Config: ConfigType = {
+  address: env.ADDRESS || '127.0.0.1',
+  port: env.PORT || '5984',
+  database: env.DATABASE || 'earth_artificial_satellites',
+  dbUsername: env.DB_USERNAME || 'couchdb',
+  dbPassword: env.DB_PASSWORD || ''
+}
+
+module.exports = Config;
