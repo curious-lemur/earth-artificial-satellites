@@ -10,7 +10,7 @@ type ConfigType = {
 
 const Config: ConfigType = {
   address: env.ADDRESS || '127.0.0.1',
-  port: env.PORT || '5984',
+  port: env.PORT || '3000',
   database: env.DATABASE || 'earth_artificial_satellites',
   dbUsername: env.DB_USERNAME || 'couchdb',
   dbPassword: env.DB_PASSWORD || ''
