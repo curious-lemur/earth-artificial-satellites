@@ -15,7 +15,7 @@ let Schema = createSchema(`
 
   type Satellite {
     name: String
-    startup-date: String
+    startupDate: String
   }
 `);
 
