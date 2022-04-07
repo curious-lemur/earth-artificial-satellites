@@ -1,4 +1,16 @@
-const USSR = {
+interface Country {
+  collection: String
+  name: String,
+  satellitesList: Array<Satellite>
+}
+
+interface Satellite {
+  collection: String
+  name: String
+  startupDate: String
+}
+
+const USSR: Country = {
   collection: "countries",
   name: "Советский Союз",
   satellitesList: [
@@ -15,7 +27,7 @@ const USSR = {
   ]
 };
 
-const China = {
+const China: Country = {
   collection: "countries",
   name: "Китай",
   satellitesList: [
@@ -32,6 +44,6 @@ const China = {
   ]
 };
 
-const data = [USSR, China];
+const data: Array<Country> = [USSR, China];
 
 module.exports = data;
