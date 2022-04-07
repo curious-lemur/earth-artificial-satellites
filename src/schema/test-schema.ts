@@ -9,11 +9,13 @@ let Schema = createSchema(`
   }
 
   type Country {
-    name: String
+    collection: String
+    name: String,
     satellitesList: [Satellite]
   }
 
   type Satellite {
+    collection: String
     name: String
     startupDate: String
   }
