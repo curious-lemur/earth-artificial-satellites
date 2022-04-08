@@ -9,6 +9,21 @@ const fakeData = require('./db/db-queries');
 const root = {
   getCountries: () => {
     return fakeData;
+  },
+  getSatellitesFromCountries: ({key, value}) => {
+    const allSatellitesArray = [];
+    fakeData.forEach((country) => {
+      country.satellitesList.forEach((satellite) => {
+         if (satellite[key] === value) {
+           console.log("found")
+           allSatellitesArray.push(satellite);
+         } else {
+           console.log("not found")
+         }
+      })
+    });
+
+    return allSatellitesArray;
   }
 };
 
