@@ -3,11 +3,12 @@ const createSchema = require('graphql').buildSchema;
 let Schema = createSchema(`
   type Query {
     getCountries: [Country]
+    getSatellitesFromCountries(key: String, value: String): [Satellite]
   }
 
   type Country {
     collection: String
-    name: String,
+    name: String
     satellitesList: [Satellite]
   }
 
