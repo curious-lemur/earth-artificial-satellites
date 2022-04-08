@@ -13,10 +13,7 @@ const root = {
     fakeData.forEach((country) => {
       country.satellitesList.forEach((satellite) => {
          if (satellite[key] === value) {
-           console.log("found")
            allSatellitesArray.push(satellite);
-         } else {
-           console.log("not found")
          }
       })
     });
