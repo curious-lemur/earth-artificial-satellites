@@ -1,13 +1,13 @@
 interface Country {
-  collection: String
-  name: String,
+  collection: string
+  name: string,
   satellitesList: Array<Satellite>
 }
 
 interface Satellite {
-  collection: String
-  name: String
-  startupDate: String
+  collection: string
+  name: string
+  startupDate: string
 }
 
 const USSR: Country = {
