@@ -4,8 +4,6 @@ const { graphqlHTTP } = require('express-graphql');
 const testSchema = require('./schema/test-schema');
 const fakeData = require('./db/db-queries');
 
-// сам graphql api, реализующий разные резолверы, описанные в type query
-// чтобы обрабатывать запросы, нужно описать type query в схеме
 const root = {
   getCountries: () => {
     return fakeData;
