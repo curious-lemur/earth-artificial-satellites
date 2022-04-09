@@ -1,33 +1,21 @@
-const config = require('./config/config');
-const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
-const testSchema = require('./schema/test-schema');
-const fakeData = require('./db/db-queries');
+import Config from './config/config';
+import express from 'express';
+import { graphqlHTTP } from 'express-graphql';
+import schema from './schema/schema';
+import { postDocument } from './db/db-queries';
 
 const root = {
-  getCountries: () => {
-    return fakeData;
-  },
-  getSatellitesFromCountries: ({key, value}) => {
-    const allSatellitesArray = [];
-    fakeData.forEach((country) => {
-      country.satellitesList.forEach((satellite) => {
-         if (satellite[key] === value) {
-           allSatellitesArray.push(satellite);
-         }
-      })
-    });
-
-    return allSatellitesArray;
+  postDocument: () => {
+    postDocument();
   }
 };
 
 const app = express();
 app.use('/graphql', graphqlHTTP({
-  schema: testSchema,
+  schema: schema,
   rootValue: root,
   graphiql: true
 }));
 
-app.listen(config.port);
-console.log('Running a GraphQL API server at http://localhost:' + config.port + '/graphql');
+app.listen(Config.port);
+console.log('Running a GraphQL API at http://localhost:' + Config.port + '/graphql');
