@@ -1,4 +1,5 @@
-const env = require('dotenv').config().parsed;
+import { config } from 'dotenv';
+const env = config().parsed;
 
 type ConfigType = {
   address: String,
@@ -16,4 +17,4 @@ const Config: ConfigType = {
   dbPassword: env.DB_PASSWORD || ''
 }
 
-export default Config
+export default Config;
