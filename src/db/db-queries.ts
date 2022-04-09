@@ -1,49 +1,14 @@
-interface Country {
-  collection: string
-  name: string,
-  satellitesList: Array<Satellite>
+import * as Nano from 'nano';
+import Config from '../config/config';
+
+const connectionUrl = `http://${Config.dbUsername}:${Config.dbPassword}@${Config.address}:${Config.port}/${Config.database}`;
+const nano = Nano(connectionUrl);
+
+export function getDocumentById() {
+  //nano.db.get(doc _id, [params], [callback])
+  return nano.db.list()
 }
 
-interface Satellite {
-  collection: string
-  name: string
-  startupDate: string
-}
+export function getDocuments() {}
 
-const USSR: Country = {
-  collection: "countries",
-  name: "Советский Союз",
-  satellitesList: [
-    {
-      collection: "satellites",
-      name: "Спутник 1",
-      startupDate:  "14.04.1999"
-    },
-    {
-      collection: "satellites",
-      name: "Спутник 2",
-      startupDate: "27.10.2017"
-    }
-  ]
-};
-
-const China: Country = {
-  collection: "countries",
-  name: "Китай",
-  satellitesList: [
-    {
-      collection: "satellites",
-      name: "zho feng xiao 1",
-      startupDate:  "14.04.1999"
-    },
-    {
-      collection: "satellites",
-      name: "li wu mei 2",
-      startupDate: "27.10.2017"
-    }
-  ]
-};
-
-const data: Array<Country> = [USSR, China];
-
-module.exports = data;
+export function findDocumentByKey() {}
