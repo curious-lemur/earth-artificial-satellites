@@ -4,25 +4,24 @@ const { graphql, buildSchema } = require('graphql');
    type Satellite {
      data: {
        _id: ID!
+       docType: String
        name: String
+       category: String
+       description: String
        tasks: String
        carrierRocket: String
        startupDate: Date
-       flightDuration: Int
+       flightDuration: String
        country: String
-       specifications: type Specifitaions
      }
-   }
-
-   type Specifications {
-     mass: Float
-     missionDuration: Int
    }
 
    type Country {
      data: {
        _id: ID!
+       docType: String
        name: String
+       firstSatelliteStartupDate: Date
        satellitesList: [Satellite]
      }
    }
