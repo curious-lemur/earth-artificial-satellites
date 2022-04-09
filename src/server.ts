@@ -2,11 +2,17 @@ import Config from './config/config';
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import schema from './schema/schema';
-import { postDocument } from './db/db-queries';
+import { getDocumentById, getDocuments, findDocumentByKey } from './db/db-queries';
 
 const root = {
-  postDocument: () => {
-    postDocument();
+  getDocById: () => {
+    getDocumentById();
+  },
+  getDocs: () => {
+    getDocuments();
+  },
+  findDocByKey: () => {
+    findDocumentByKey();
   }
 };
 
