@@ -16,4 +16,4 @@ const Config: ConfigType = {
   dbPassword: env.DB_PASSWORD || ''
 }
 
-module.exports = Config;
+export default Config
