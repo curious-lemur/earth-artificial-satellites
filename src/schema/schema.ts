@@ -1,6 +1,6 @@
 const { graphql, buildSchema } = require('graphql');
 
- const schema = buildSchema(`
+const schema = buildSchema(`
    type Satellite {
      data: {
        _id: ID!
@@ -26,3 +26,5 @@ const { graphql, buildSchema } = require('graphql');
      }
    }
  `);
+
+export default schema;
