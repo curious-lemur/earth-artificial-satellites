@@ -1,29 +1,35 @@
 import { graphql, buildSchema } from 'graphql';
 
 const schema = buildSchema(`
+  type Query {
+    findDocByID(id: String): String
+  }
+
+  scalar Date
+
+  type DateTime {
+    created: Date
+  }
+
    type Satellite {
-     data: {
-       _id: ID!
-       docType: String
-       name: String
-       category: String
-       description: String
-       tasks: String
-       carrierRocket: String
-       startupDate: Date
-       flightDuration: String
-       country: String
-     }
+     _id: ID!
+     docType: String
+     name: String
+     category: String
+     description: String
+     tasks: String
+     carrierRocket: String
+     startupDate: DateTime
+     flightDuration: String
+     country: String
    }
 
    type Country {
-     data: {
-       _id: ID!
-       docType: String
-       name: String
-       firstSatelliteStartupDate: Date
-       satellitesList: [Satellite]
-     }
+     _id: ID!
+     docType: String
+     name: String
+     firstSatelliteStartupDate: DateTime
+     satellitesList: [Satellite]
    }
  `);
 
