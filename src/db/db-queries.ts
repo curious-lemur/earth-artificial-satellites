@@ -11,4 +11,3 @@ export function getDocumentById() {
 
 export function getDocuments() {}
 
-export function findDocumentByKey() {}
