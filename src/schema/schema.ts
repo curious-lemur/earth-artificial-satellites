@@ -2,7 +2,8 @@ import { graphql, buildSchema } from 'graphql';
 
 const schema = buildSchema(`
   type Query {
-    findDocByID(id: String): String
+    findDocumentByID(id: String): Satellite
+    findDocuments: [Satellite]
   }
 
   scalar Date
