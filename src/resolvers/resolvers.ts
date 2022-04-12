@@ -1,9 +1,10 @@
-import * as Nano from 'nano';
+import Nano from 'nano';
 import Config from '../config/config.js';
 import { GraphQLScalarType } from 'graphql';
 
-const nano = Nano(Config.connectionUrl);
+const nano: Nano.ServerScope = <Nano.ServerScope>Nano(Config.connectionUrl);
 const db = nano.use(Config.database);
+
 const dateScalar = new GraphQLScalarType({
   name: 'Date',
   parseValue(value) {
@@ -14,12 +15,15 @@ const dateScalar = new GraphQLScalarType({
   }
 });
 
-async function findDocumentByID(id) {
+async function findDocumentByID(id: string) {
   //nano.db.get(doc _id, [params], [callback])
-  return await nano.db.get(id);
+  let temporaryId = '8b4ee84640ce8787f74a1b1456024c30';
+  return await db.get(temporaryId);
 }
 
-async function findDocuments() {}
+async function findDocuments() {
+  return await db.fetch({keys: ['спутник']})
+}
 
 async function findDocumentsByKey() {}
 
