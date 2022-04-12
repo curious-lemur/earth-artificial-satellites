@@ -19,7 +19,7 @@ const Config: ConfigType = {
   dbPassword: env.DB_PASSWORD || '',
   database: env.DATABASE || 'earth-artificial-satellites',
   get connectionUrl(): string {
-    return `http://${this.dbUsername}:${this.dbPassword}@${this.address}:${this.port}/${this.database}`;
+    return `http://${this.dbUsername}:${this.dbPassword}@${this.address}:${this.dbPort}`;
   }
 }
 
