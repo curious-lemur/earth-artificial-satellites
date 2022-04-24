@@ -5,7 +5,6 @@ const schema = buildSchema(`
     findDocumentByID(id: String): Satellite
     findDocuments: [Satellite]
     findDocumentsByKey(key: String): [Satellite]
-    testList: Satellite
   }
 
   scalar Date
@@ -29,8 +28,18 @@ const schema = buildSchema(`
      _rev: String
      docType: String
      name: String
-     firstSatelliteStartupDate: Date
-     satellitesList: [Satellite]
+     carrierRockets: [carrierRocket]
+     firstSatelliteStartup: Date
+   }
+
+   type carrierRocket {
+     name: String
+     description: String
+   }
+
+   type firstSatelliteStartup {
+     name: String
+     date: Date
    }
  `);
 
