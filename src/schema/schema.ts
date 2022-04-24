@@ -4,32 +4,32 @@ const schema = buildSchema(`
   type Query {
     findDocumentByID(id: String): Satellite
     findDocuments: [Satellite]
+    findDocumentsByKey(key: String): [Satellite]
+    testList: Satellite
   }
 
   scalar Date
 
-  type DateTime {
-    created: Date
-  }
-
    type Satellite {
      _id: ID!
+     _rev: String
      docType: String
      name: String
      category: String
      description: String
      tasks: String
      carrierRocket: String
-     startupDate: DateTime
+     startupDate: Date
      flightDuration: String
      country: String
    }
 
    type Country {
      _id: ID!
+     _rev: String
      docType: String
      name: String
-     firstSatelliteStartupDate: DateTime
+     firstSatelliteStartupDate: Date
      satellitesList: [Satellite]
    }
  `);
