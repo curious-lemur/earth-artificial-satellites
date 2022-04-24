@@ -15,17 +15,19 @@ const dateScalar = new GraphQLScalarType({
   }
 });
 
-async function findDocumentByID(id: string) {
-  //nano.db.get(doc _id, [params], [callback])
-  let temporaryId = '8b4ee84640ce8787f74a1b1456024c30';
-  return await db.get(temporaryId);
+function findDocumentByID({id}) {
+  return db.get(id).then(data => data);
 }
 
-async function findDocuments() {
-  return await db.fetch({keys: ['спутник']})
+function findDocuments() {
+  return db.list({include_docs: true}).then(data => {
+    return data.rows.map((element) => element.doc);
+  });
 }
 
-async function findDocumentsByKey() {}
+function findDocumentsByKey({key}) {
+  return db.fetch({keys: [key]}, (_err, data) => data.rows);
+}
 
 const resolvers = {
   Date: dateScalar,
