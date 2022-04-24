@@ -5,7 +5,7 @@ import schema from './schema/schema.js';
 import resolvers from './resolvers/resolvers.js';
 
 const root = {
-    resolvers: resolvers
+    ...resolvers
 };
 
 const app = express();
