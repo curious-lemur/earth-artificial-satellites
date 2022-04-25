@@ -4,7 +4,7 @@ const schema = buildSchema(`
   type Query {
     findDocumentByID(id: String): Satellite
     findDocuments: [Satellite]
-    findDocumentsByKey(key: String): [Satellite]
+    findSatelliteWithCountry(satelliteID: ID): SatelliteWithCountry
   }
 
   scalar Date
@@ -40,6 +40,16 @@ const schema = buildSchema(`
    type firstSatelliteStartup {
      name: String
      date: Date
+   }
+
+   type CountryWithSatellitesList {
+     country: Country
+     satellitesList: [Satellite]
+   }
+
+   type SatelliteWithCountry {
+     satellite: Satellite
+     country: Country
    }
  `);
 
