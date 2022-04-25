@@ -15,7 +15,7 @@ const dateScalar = new GraphQLScalarType({
   }
 });
 
-function findDocumentByID({id}) {
+/*function findDocumentByID({id}) {
   return db.get(id).then(data => data);
 }
 
@@ -24,16 +24,44 @@ function findDocuments() {
     return data.rows.map((element) => element.doc);
   });
 }
+*/
 
-function findDocumentsByKey({key}) {
-  return db.fetch({keys: [key]}, (_err, data) => data.rows);
+async function findSatelliteWithCountry(satelliteID) {
+  const satellite = await db.get(satelliteID);
+  const countryQuery = {
+    "selector": {
+      "$and": [
+        {
+          "docType": {
+            "$eq": "country"
+          }
+        },
+        {
+          "name": {
+            "$eq": satellite.country
+          }
+        }
+      ]
+    },
+    "fields": [
+      "name", "carrierRockets", "firstSatelliteStartup"
+    ]
+  };
+
+  const country = await db.find(countryQuery).then(data => data.docs[0]);
+  return {satellite, country};
+}
+
+function asyncWrapper(resolver, args) {
+  resolver(args).then(data => data);
 }
 
 const resolvers = {
   Date: dateScalar,
-  findDocumentByID,
-  findDocuments,
-  findDocumentsByKey
-};
+  //findDocumentByID,
+  //findDocuments,
+  findSatelliteWithCountry: (args) => { asyncWrapper(findSatelliteWithCountry, args) }
+}
+
 
 export default resolvers;
