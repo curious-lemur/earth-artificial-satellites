@@ -1,5 +1,5 @@
 import Nano from 'nano';
-import Config from '../config/config.js';
+import Config from './config.js';
 import { GraphQLScalarType } from 'graphql';
 
 const nano: Nano.ServerScope = <Nano.ServerScope>Nano(Config.connectionUrl);

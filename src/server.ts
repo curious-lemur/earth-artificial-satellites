@@ -1,8 +1,8 @@
-import Config from './config/config.js';
+import Config from './config.js';
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
-import schema from './schema/schema.js';
-import resolvers from './resolvers/resolvers.js';
+import schema from './schema.js';
+import resolvers from './resolvers.js';
 
 const root = {
     ...resolvers
