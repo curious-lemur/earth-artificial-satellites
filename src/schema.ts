@@ -2,34 +2,28 @@ import { graphql, buildSchema } from 'graphql';
 
 const schema = buildSchema(`
   type Query {
-    findDocumentByID(id: String): Satellite
-    findDocuments: [Satellite]
-    findSatelliteWithCountry(satelliteID: ID): SatelliteWithCountry
+    findSatelliteWithCountry(id: ID): SatelliteWithCountry
   }
-
-  scalar Date
 
    type Satellite {
      _id: ID!
-     _rev: String
      docType: String
      name: String
      category: String
      description: String
      tasks: String
      carrierRocket: String
-     startupDate: Date
-     flightDuration: String
+     startupDate: [Int]
+     flightDuration: [Int]
      country: String
    }
 
    type Country {
      _id: ID!
-     _rev: String
      docType: String
      name: String
      carrierRockets: [carrierRocket]
-     firstSatelliteStartup: Date
+     firstSatelliteStartup: [Int]
    }
 
    type carrierRocket {
@@ -39,7 +33,7 @@ const schema = buildSchema(`
 
    type firstSatelliteStartup {
      name: String
-     date: Date
+     date: [Int]
    }
 
    type CountryWithSatellitesList {
