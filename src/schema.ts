@@ -2,7 +2,12 @@ import { graphql, buildSchema } from 'graphql';
 
 const schema = buildSchema(`
   type Query {
-    findSatelliteWithCountry(id: ID): SatelliteWithCountry
+    findSatellites(turnPageParams: TurnPageParams): [Satellite]
+  }
+
+  type TurnPageParams {
+    toTurnPage: Boolean
+    direction: String
   }
 
    type Satellite {
@@ -22,16 +27,16 @@ const schema = buildSchema(`
      _id: ID!
      docType: String
      name: String
-     carrierRockets: [carrierRocket]
-     firstSatelliteStartup: [Int]
+     carrierRockets: [CarrierRocket]
+     firstSatelliteStartup: FirstSatelliteStartup
    }
 
-   type carrierRocket {
+   type CarrierRocket {
      name: String
      description: String
    }
 
-   type firstSatelliteStartup {
+   type FirstSatelliteStartup {
      name: String
      date: [Int]
    }
