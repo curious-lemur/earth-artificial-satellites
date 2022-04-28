@@ -11,7 +11,7 @@ interface iServerPagingParams {
   offset: number
 }
 
-interface iPagingParamsToClient extends iServerPagingParams {
+export interface iPagingParamsToClient extends iServerPagingParams {
    turnPageAllowance: iTurnPageAllowance
 }
 
@@ -26,7 +26,7 @@ interface iDbQueryResultParamsForPaging {
   offset: number
 }
 
-export default class PageTurner {
+export class PageTurner {
   static limit = 5;
   static set offset(value) { this.offset = value };
   static set total_rows(value) { this.total_rows = value };
@@ -48,7 +48,7 @@ export default class PageTurner {
     }
   }
 
-  static createPagingParamsForClient(params: iDbQueryResultParamsForPaging): iPagingParamsToClient {
+  static createPagingParamsToClient(params: iDbQueryResultParamsForPaging): iPagingParamsToClient {
     this.defineTurnPageAllowance(params);
     return {
       limit: this.limit,
