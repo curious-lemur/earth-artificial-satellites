@@ -1,18 +1,34 @@
 import Nano from 'nano';
 import Config from './config.js';
-import PaginationParams from './middleware/PaginationParams.js';
+import { PageTurner, iPagingParamsToClient } from './middleware/PageTurner.js';
 
 const nano: Nano.ServerScope = <Nano.ServerScope>Nano(Config.connectionUrl);
 const db = nano.use(Config.database);
 
-async function findSatellites({turnPageParams}) {
-  PaginationParams.update(turnPageParams);
-  const newParams = PaginationParams.getParams();
-  const result = await db.view('satellites', 'all-satellites', { include_docs: true, ...newParams});
+interface iResponse {
+  data: any
 
-  PaginationParams.newTotalRows = result.total_rows;
+}
 
-  return result.rows || result || new Error('Docs not found');
+async function findSatellites({pagingParamsFromClient}) {
+  try {
+    const pagingParams = PageTurner.createPagingParamsForServer(pagingParamsFromClient);
+    const dbQueryResult = await db.view('satellites', 'all-satellites', { include_docs: true, ...pagingParams});
+
+    if (!dbQueryResult) { throw new Error("Documents not found") }
+
+    const { total_rows, offset } = dbQueryResult;
+
+    return {
+      data: dbQueryResult.rows || dbQueryResult,
+      total_rows,
+      offset,
+      // add turn page allowance
+    };
+  } catch(error) {
+    console.log(error);
+    return error;
+  }
 }
 
 const resolvers = {
