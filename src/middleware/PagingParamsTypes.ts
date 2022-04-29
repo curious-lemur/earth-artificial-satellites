@@ -11,10 +11,6 @@ namespace PagingParams {
     offset: number
   }
 
-  export interface iPagingParamsToClient extends iServerPagingParams {
-     canFetchMoreData: boolean
-  }
-
   export interface iDbQueryResultParamsForPaging {
     total_rows: number
     rows: number
