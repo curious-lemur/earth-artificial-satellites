@@ -1,14 +1,10 @@
 import Nano from 'nano';
 import Config from './config.js';
-import { PageTurner, iPagingParamsToClient } from './middleware/PageTurner.js';
+import PageTurner from './middleware/PageTurner.js';
+import ResponseToClient from './middleware/ResponseToClient.js';
 
 const nano: Nano.ServerScope = <Nano.ServerScope>Nano(Config.connectionUrl);
 const db = nano.use(Config.database);
-
-interface iResponse {
-  data: any
-
-}
 
 async function findSatellites({pagingParamsFromClient}) {
   try {
@@ -17,14 +13,7 @@ async function findSatellites({pagingParamsFromClient}) {
 
     if (!dbQueryResult) { throw new Error("Documents not found") }
 
-    const { total_rows, offset } = dbQueryResult;
-
-    return {
-      data: dbQueryResult.rows || dbQueryResult,
-      total_rows,
-      offset,
-      // add turn page allowance
-    };
+    return new ResponseToClient(dbQueryResult);
   } catch(error) {
     console.log(error);
     return error;
