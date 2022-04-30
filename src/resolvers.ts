@@ -1,28 +1,28 @@
+/// < reference path="./types/paging.ts" />
 import Nano from 'nano';
 import Config from './config.js';
-import PageTurner from './middleware/PageTurner.js';
-import ResponseToClient from './middleware/ResponseToClient.js';
+import PageTurner from './middleware/page-turner.js';
 
 const nano: Nano.ServerScope = <Nano.ServerScope>Nano(Config.connectionUrl);
 const db = nano.use(Config.database);
 
-async function findSatellites({pagingParamsFromClient}) {
-  try {
-    const pagingParams = PageTurner.createPagingParamsForServer(pagingParamsFromClient);
-    const dbQueryResult = await db.view('satellites', 'all-satellites', { include_docs: true, ...pagingParams});
+async function findSatellites({pagingParams}) {
+  const pageTurner = new PageTurner(pagingParams);
 
-    if (!dbQueryResult) { throw new Error("Documents not found") }
+  const queryResult = await db.view('satellites', 'satellite-list', {
+    limit: pageTurner.limit, skip: pageTurner.offset
+  });
 
-    return new ResponseToClient(dbQueryResult);
-  } catch(error) {
-    console.log(error);
-    return error;
-  }
+  return {
+    data: queryResult.rows,
+    pagingParams: {
+      ...pageTurner.updateParamsToClient(queryResult.total_rows)
+    }
+  };
 }
 
 const resolvers = {
   findSatellites
 }
-
 
 export default resolvers;
