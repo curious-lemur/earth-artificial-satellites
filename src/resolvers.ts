@@ -14,7 +14,7 @@ async function findSatellites({pagingParams}) {
   });
 
   return {
-    data: queryResult.rows,
+    data: queryResult.rows.map((doc) => doc.key),
     pagingParams: {
       ...pageTurner.updateParamsToClient(queryResult.total_rows)
     }
