@@ -2,7 +2,7 @@ import { graphql, buildSchema } from 'graphql';
 
 const schema = buildSchema(`
   type Query {
-    findSatellites(pagingParams: PagingParamsInput): SatellitesList
+    findSatellites(pagingParams: PagingParamsInput): SatelliteList
   }
 
   input PagingParamsInput {
@@ -12,15 +12,16 @@ const schema = buildSchema(`
   }
 
   type PagingParamsType {
-    toTurnPage: Boolean!
+    canTurnPage: Boolean!
     total_rows: Int!
     offset: Int!
   }
 
-  type SatellitesList {
+  type SatelliteList {
     data: [Satellite]
     pagingParams: PagingParamsType
   }
+
 
    type Satellite {
      _id: ID!
