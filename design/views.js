@@ -2,8 +2,8 @@
 // its design document - countries
 
 function countryList(doc) {
-  if (doc.docType === 'country' && doc.name && doc.carrierRockets && doc.firstSatelliteStartup) {
-    emit(doc.name, doc.carrierRockets, doc.firstSatelliteStartup);
+  if (doc.docType === 'country') {
+    emit(doc._id, null);
   }
 }
 
@@ -11,7 +11,8 @@ function countryList(doc) {
 // its design document - satellites
 
 function satelliteList(doc) {
-  if (doc.docType === 'satellite') {
-    emit(doc)
+  if (doc.docType === "satellite") {
+    emit(doc._id, null);
+    emit(doc._id, { "_id": doc.countryId} )
   }
 }
