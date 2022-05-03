@@ -12,7 +12,9 @@ function countryList(doc) {
 
 function satelliteList(doc) {
   if (doc.docType === "satellite") {
-    emit(doc._id, null);
-    emit(doc._id, { "_id": doc.countryId} )
+    emit(null, null);
+    for (let i = 0; i < doc.countries.length; i++) {
+      emit(null, { "_id": doc.countries[i] })
+    }
   }
 }
