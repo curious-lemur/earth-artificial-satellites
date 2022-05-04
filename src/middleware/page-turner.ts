@@ -8,7 +8,7 @@ export default class PageTurner {
     const {toTurnPage, offset, total_rows} = params;
 
     if (toTurnPage) {
-      this.offset= (offset + this.limit <= total_rows)
+      this.offset= (offset + this.limit < total_rows)
         ? offset + this.limit
         : offset;
     }
