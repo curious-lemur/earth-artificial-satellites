@@ -1,4 +1,4 @@
-import { graphql, buildSchema } from 'graphql';
+import { buildSchema } from 'graphql';
 
 const schema = buildSchema(`
   type Query {
@@ -21,7 +21,6 @@ const schema = buildSchema(`
     data: [Satellite]
     pagingParams: PagingParamsType
   }
-
 
    type Satellite {
      _id: ID!
@@ -52,16 +51,6 @@ const schema = buildSchema(`
    type FirstSatelliteStartup {
      name: String
      date: [Int]
-   }
-
-   type CountryWithSatellitesList {
-     country: Country
-     satellitesList: [Satellite]
-   }
-
-   type SatelliteWithCountry {
-     satellite: Satellite
-     country: Country
    }
  `);
 
