@@ -4,7 +4,7 @@ import PageTurner from '../page-turner.js';
 async function findSatellites({pagingParams}) {
   const pageTurner = new PageTurner(pagingParams);
 
-  const queryResult = await db.view('satellites', 'satellite-list', {
+  const queryResult = await db.view('satellites', 'satellite-list-with-countries', {
     include_docs: true,
     limit: pageTurner.limit,
     skip: pageTurner.offset
