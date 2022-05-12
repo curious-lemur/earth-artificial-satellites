@@ -1,22 +1,21 @@
 import db from '../../db/db-connection.js';
-import PageTurner from '../page-turner.js';
 
-async function findSatellites({pagingParams}) {
-  const pageTurner = new PageTurner(pagingParams);
-
-  const queryResult = await db.view('satellites', 'satellite-list-with-countries', {
-    include_docs: true,
-    limit: pageTurner.limit,
-    skip: pageTurner.offset
-  });
-
-  const response = {
-    data: queryResult.rows.map((satellite) => satellite.doc),
-    pagingParams: {
-      ...pageTurner.updateParamsToClient(queryResult.total_rows)
-    }
+async function findSatellites({bookmark}) {
+  const mangoQuery = {
+    "selector": {
+      "docType": "satellite"
+    },
+    "limit": 10
   };
-  return response;
+
+  if (bookmark) { mangoQuery["bookmark"] = bookmark }
+
+  const dbResponse = await db.find(mangoQuery);
+
+  return {
+    data: dbResponse.docs,
+    bookmark: dbResponse.bookmark
+  };
 }
 
 export default findSatellites;
