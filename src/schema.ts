@@ -2,35 +2,19 @@ import { buildSchema } from 'graphql';
 
 const schema = buildSchema(`
   type Query {
-    findSatellites(pagingParams: PagingParamsInput): SatelliteList
-    findCountries(pagingParams: PagingParamsInput): CountryList
-  }
-
-  input PagingParamsInput {
-    toTurnPage: Boolean!
-    total_rows: Int
-    offset: Int
-  }
-
-  type PagingParamsType {
-    canTurnPage: Boolean!
-    total_rows: Int!
-    offset: Int!
+    findSatellites(bookmark: String): SatelliteList
+    findCountries(bookmark: String): CountryList
+    findOneSatellite: Satellite
   }
 
   type SatelliteList {
-    data: [SatelliteWithCountries]
-    pagingParams: PagingParamsType
+    data: [Satellite]
+    bookmark: String
   }
 
   type CountryList {
     data: [CountryWithSatellites]
-    pagingParams: PagingParamsType
-  }
-
-  type SatelliteWithCountries {
-    satellite: Satellite
-    countries: [Country]
+    bookmark: String
   }
 
   type CountryWithSatellites {
@@ -48,6 +32,7 @@ const schema = buildSchema(`
      carrierRocket: String
      startupDate: [Int]
      flightDuration: [Int]
+     countries: [String]
    }
 
    type Country {
