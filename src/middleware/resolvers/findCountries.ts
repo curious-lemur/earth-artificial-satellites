@@ -1,42 +1,55 @@
 import nano from 'nano';
 import db from '../../db/db-connection.js';
-import PageTurner from '../page-turner.js';
 
-
-
-async function findCountries({pagingParams}) {
-  const pageTurner = new PageTurner(pagingParams);
-
-  const countries = await db.view('countries', 'country-list', {
-    include_docs: true,
-    limit: pageTurner.limit,
-    skip: pageTurner.offset
-  });
-
-  const countriesWithSatellites = countries.rows.map(async (country) => {
-    return await fetchSatellitesForCountry(country, pageTurner);
-  });
-
-  const response = {
-    data: await Promise.all(countriesWithSatellites),
-    pagingParams: {
-      ...pageTurner.updateParamsToClient(countries.total_rows)
-    }
-  };
-  return response;
+interface Country {
+  _id: string
+  _rev: string
+  name: string
 }
 
-async function fetchSatellitesForCountry(country, pageTurner) {
-  const relatedSatellites = await db.view('satellites', 'satellite-list', {
-    include_docs: true,
-    key: country.doc.name,
-    limit: pageTurner.limit
+function countryMangoQuery(bookmark) {
+  const query: nano.MangoQuery = {
+    "selector": {
+      "docType": "country"
+    },
+    "limit": 3
+  };
+
+  if (bookmark) { query["bookmark"] = bookmark }
+  return query;
+}
+
+function satelliteMangoQuery(countryName) {
+  const query: nano.MangoQuery = {
+    "selector": {
+      "$and": [
+        { "docType": "satellite" },
+        {
+          "countries": {
+            "$elemMatch": {
+              "$eq": countryName
+            }
+          }
+        }
+      ]
+    },
+    "limit": 10
+  };
+
+  return query;
+}
+
+export default async function findCountries({bookmark}) {
+  const countries = await db.find(countryMangoQuery(bookmark));
+
+  const countriesWithSatellitesPromises = countries.docs.map( async (country: Country) => {
+    const satellites = await db.find(satelliteMangoQuery(country.name));
+    return { country: country, satellites: satellites.docs };
   });
 
+  const countriesWithSatellites = await Promise.all(countriesWithSatellitesPromises);
   return {
-    country: country.doc,
-    satellites: relatedSatellites.rows.map((satellite) => satellite.doc)
-  };
+    data: countriesWithSatellites,
+    bookmark: countries.bookmark
+  }
 }
-
-export default findCountries;
