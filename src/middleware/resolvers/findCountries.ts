@@ -1,42 +1,12 @@
 import nano from 'nano';
 import db from '../../db/db-connection.js';
 
+import { countryMangoQuery, satelliteMangoQuery } from '../../db/mangoQueries.js';
+
 interface Country {
   _id: string
   _rev: string
   name: string
-}
-
-function countryMangoQuery(bookmark) {
-  const query: nano.MangoQuery = {
-    "selector": {
-      "docType": "country"
-    },
-    "limit": 3
-  };
-
-  if (bookmark) { query["bookmark"] = bookmark }
-  return query;
-}
-
-function satelliteMangoQuery(countryName) {
-  const query: nano.MangoQuery = {
-    "selector": {
-      "$and": [
-        { "docType": "satellite" },
-        {
-          "countries": {
-            "$elemMatch": {
-              "$eq": countryName
-            }
-          }
-        }
-      ]
-    },
-    "limit": 10
-  };
-
-  return query;
 }
 
 export default async function findCountries({bookmark}) {
