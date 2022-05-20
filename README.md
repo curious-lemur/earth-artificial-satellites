@@ -7,5 +7,5 @@ A graphql API server that provides information about artificial satellites of Ea
 Building with:
 - TypeScript
 - Express
-- CouchDB
+- MongoDB
 - GraphQL
