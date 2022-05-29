@@ -1,7 +1,18 @@
-import Nano from 'nano';
-import Config from '../config.js';
+import { Db, MongoClient } from 'mongodb';
+import config from '../config.js';
 
-const nano: Nano.ServerScope = <Nano.ServerScope>Nano(Config.connectionUrl);
-const db = nano.use(Config.database);
+const client = new MongoClient(config.dbConnectionUrl);
 
-export default db;
+async function connect(): Promise<Db> {
+    try {
+        await client.connect();
+
+        return client.db('satellites-and-countries')
+    } catch(err) {
+        console.error(err);
+    } finally {
+        await client.close();
+    }
+}
+
+export default connect;
