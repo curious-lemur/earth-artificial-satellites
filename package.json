@@ -2,10 +2,11 @@
   "name": "earth-artificial-satellites",
   "version": "1.0.0",
   "type": "module",
-  "description": "",
+  "description": "A GraphQL API server that provides information about artificial satellites of Earth",
   "main": "src/server.ts",
   "scripts": {
-    "start": "npx tsc && node dist/server.js"
+    "serve": "npx tsc && node dist/server.js",
+    "db-init": "npx tsc src/db/db-init.ts && node dist/db-init.js"
   },
   "keywords": [],
   "author": "",
