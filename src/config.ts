@@ -21,15 +21,16 @@ class Config {
     switch (this.dbLocation) {
       case 'atlas':
         this.dbConnectionUrl = `mongodb+srv://${this.dbUsername}:${this.dbPassword}@cluster0.mvxew.mongodb.net/${this.dbName}?retryWrites=true&w=majority`;
+        break;
       case 'local':
         this.dbPort = env.DB_PORT || '5000';
         this.dbAddress = env.ADDRESS || '127.0.0.1';
-        this.dbConnectionUrl =  `${this.dbAddress}:${this.dbPort}/${this.dbName}`;
+        this.dbConnectionUrl = `${this.dbAddress}:${this.dbPort}/${this.dbName}`;
+        break;
       default:
         console.error(new Error('Unknown database location'));
     }
-  }
-  
+  } 
 }
 
 export default new Config;
