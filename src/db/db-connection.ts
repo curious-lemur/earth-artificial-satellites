@@ -6,8 +6,13 @@ const client = new MongoClient(config.dbConnectionUrl);
 async function connect(): Promise<Db> {
     try {
         await client.connect();
-
-        return client.db('satellites-and-countries')
+        const database = await client.db(config.dbName);
+        if (!database) {
+            throw new Error('The database ' + config.dbName + ' does not exist')
+        } else {
+            console.log('Connected to database successfully');
+            return database;
+        }
     } catch(err) {
         console.error(err);
     } finally {
