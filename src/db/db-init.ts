@@ -1,1 +1,3 @@
-import db from './db-connection.js';
+import connect from './db-connection.js';
+
+connect();
