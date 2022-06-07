@@ -1,9 +1,9 @@
 import { Db, MongoClient } from 'mongodb';
 import config from '../config.js';
 
-const client = new MongoClient(config.dbConnectionUrl);
+export const client = new MongoClient(config.dbConnectionUrl);
 
-async function connect(): Promise<Db> {
+export async function connect(): Promise<Db> {
     try {
         await client.connect();
         const database = await client.db(config.dbName);
@@ -15,9 +15,6 @@ async function connect(): Promise<Db> {
         }
     } catch(err) {
         console.error(err);
-    } finally {
-        await client.close();
     }
 }
 
-export default connect;
