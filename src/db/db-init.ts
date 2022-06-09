@@ -1,6 +1,6 @@
 import { readFile } from 'fs';
 import { promisify } from 'util';
-import { client, connect } from './db-connection.js';
+import { connect, close } from './db-connection.js';
 
 class dbInitializer {
     static async init(): Promise<void> {
@@ -20,7 +20,7 @@ class dbInitializer {
 
         await Promise.all(collectionPromises);
 
-        client.close(() => { console.log('Connection to database closed') });
+        close();
     }
 
     static async readDataFromFile(collectionName): Promise<[Error, string]> {
