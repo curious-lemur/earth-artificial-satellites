@@ -1,12 +1,18 @@
-import { Db, MongoClient } from 'mongodb';
+import { Db, Collection, Document, MongoClient } from 'mongodb';
 import config from '../config.js';
 
-export const client = new MongoClient(config.dbConnectionUrl);
+const client = new MongoClient(config.dbConnectionUrl);
 
-export async function connect(): Promise<Db> {
+interface Database extends Db {
+    satellites: Collection<Document>
+    countries: Collection<Document>
+}
+
+export async function connect(): Promise<Database> {
     try {
         await client.connect();
-        const database = await client.db(config.dbName);
+        const database = client.db(config.dbName) as Database;
+
         if (!database) {
             throw new Error('The database ' + config.dbName + ' does not exist')
         } else {
@@ -18,3 +24,6 @@ export async function connect(): Promise<Db> {
     }
 }
 
+export function close(): void {
+    client.close(() => { console.log('Connection to database closed') });
+}
