@@ -9,3 +9,5 @@ Building with:
 - Express
 - MongoDB
 - GraphQL
+
+Node.js version used in this project: v16.15.1
