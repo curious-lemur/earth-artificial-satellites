@@ -2,31 +2,9 @@ import { buildSchema } from 'graphql';
 
 const schema = buildSchema(`
   type Query {
-    findSatellites(bookmark: String): SatelliteListResponse
-    findCountries(bookmark: String): CountryListResponse
     findOneSatellite(id: ID): Satellite
-    findOneCountry(id: ID, satelliteBookmark: String): CountryResponse
   }
 
-  type SatelliteListResponse {
-    data: [Satellite]
-    bookmark: String
-  }
-
-  type CountryListResponse {
-    data: [CountryWithSatellites]
-    bookmark: String
-  }
-
-  type CountryResponse {
-    data: CountryWithSatellites
-    bookmark: String
-  }
-
-  type CountryWithSatellites {
-    country: Country
-    satellites: [Satellite]
-  }
 
    type Satellite {
      _id: ID!
