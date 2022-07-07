@@ -1,18 +1,22 @@
-import { readFile } from 'fs';
-import { promisify } from 'util';
-import { connect, close } from './db-connection.js';
+import { readFile } from 'fs/promises';
+import { connect, close } from '../db/db-connection.js';
 
-class dbInitializer {
+type readFileResult = [
+    error: Error | null,
+    data: string | null
+]
+
+export default class dbInitializer {
     static async init(): Promise<void> {
         const db = await connect();
 
         const collections = ['countries', 'satellites'];
         const collectionPromises = collections.map(async (collectionName) => {
-            const [error, data] = await this.readDataFromFile(collectionName);
+            const [error, data]: readFileResult = await this.readDataFromFile(collectionName);
 
-            if (error) {
+            if (error || data === null) {
                 console.error(error);
-                return 'not ok';
+                return false;
             } else {
                 return await this.insertDataIntoDb(db, collectionName, JSON.parse(data));
             }
@@ -23,9 +27,8 @@ class dbInitializer {
         close();
     }
 
-    static async readDataFromFile(collectionName): Promise<[Error, string]> {
-        const readFileData = promisify(readFile);
-        const data = await readFileData('./data/' + collectionName + '.json', 'utf8');
+    static async readDataFromFile(collectionName): Promise<readFileResult> {
+        const data = await readFile('./data/' + collectionName + '.json', 'utf8');
         if (!data) {
             return [new Error('Error while reading ' + collectionName + '.json file. Data not found.'), null];
         } else {
@@ -33,17 +36,16 @@ class dbInitializer {
         }
     }
 
-    static async insertDataIntoDb(db, collectionName, data): Promise<string> {
+    static async insertDataIntoDb(db, collectionName, data): Promise<boolean> {
         try {
             const collection = db.collection(collectionName);
             const insertResult = await collection.insertMany(data.docs);
             console.log('Successfully inserted documents into ' + collectionName + ' collection');
-            return 'ok';
+            return true;
         } catch(err) {
+            console.error(new Error('Unable to insert documents into ' + collectionName + ' collection'));
             console.error(err);
-            return 'not ok';
+            return false;
         }
     }
 }
-
-dbInitializer.init();
