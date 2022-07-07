@@ -6,7 +6,7 @@ type readFileResult = [
     data: string | null
 ]
 
-export default class dbInitializer {
+export default class DbInitializer {
     static async init(): Promise<void> {
         const db = await connect();
 
