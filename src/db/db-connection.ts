@@ -3,7 +3,7 @@ import config from '../config.js';
 
 const client = new MongoClient(config.dbConnectionUrl);
 
-export async function connect(): Promise<Db> {
+export async function connect(): Promise<Db | void> {
     try {
         await client.connect();
         const database = client.db(config.dbName);
