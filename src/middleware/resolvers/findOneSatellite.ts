@@ -1,5 +1,12 @@
-import db from '../../db/db-connection.js';
+import { connect, close } from '../../db/db-connection.js'; 
+import { convertToObjectId } from '../convertToObjectId.js';
 
 export default async function findOneSatellite({id}) {
-  return await db.get(id);
+  const db = await connect();
+  const convertedId = convertToObjectId(id);
+
+  const data = await db.collection('satellites').findOne({ _id: convertedId });
+
+  close();
+  return data;
 }
