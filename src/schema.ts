@@ -2,6 +2,8 @@ import { buildSchema } from 'graphql';
 
 const schema = buildSchema(`
   type Query {
+    findSatellites(limit: Int, skip: Int): [Satellite]
+    findCountries(limit: Int, skip: Int): [Country]
     findOneSatellite(id: ID): Satellite
   }
 
