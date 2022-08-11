@@ -4,14 +4,11 @@ import { graphqlHTTP } from 'express-graphql';
 import schema from './schema.js';
 import resolvers from './middleware/resolvers.js';
 
-const root = {
-    ...resolvers
-};
 
 const app = express();
 app.use('/graphql', graphqlHTTP({
   schema: schema,
-  rootValue: root,
+  rootValue: resolvers,
   graphiql: true
 }));
 
