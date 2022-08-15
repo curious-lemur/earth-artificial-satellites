@@ -6,7 +6,8 @@
   "main": "src/server.ts",
   "scripts": {
     "serve": "npx tsc && node dist/server.js",
-    "db-init": "npx tsc src/db/db-init.ts && node dist/db-init.js"
+    "db-init": "node dist/executable/db-init.js",
+    "modify-file-data": "node dist/executable/fileDataModifier.js"
   },
   "keywords": [],
   "author": "",
