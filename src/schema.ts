@@ -5,8 +5,13 @@ const schema = buildSchema(`
     findSatellites(limit: Int, skip: Int): [Satellite]
     findCountries(limit: Int, skip: Int): [Country]
     findOneSatellite(id: ID): Satellite
+    findOneCountry(id: ID): CountryWithSatellites
   }
 
+  type CountryWithSatellites {
+    country: Country
+    satellites: [Satellite]
+  }
 
    type Satellite {
      _id: ID!
