@@ -1,22 +1,27 @@
+import EventEmitter from 'events';
 import { Db, MongoClient } from 'mongodb';
 import config from '../config.js';
 
-const client = new MongoClient(config.dbConnectionUrl);
+const client = new MongoClient(config.dbConnectionUrl, { connectTimeoutMS: 5000 });
 
-export async function connect(): Promise<Db> {
-    try {
-        await client.connect();
-        const database = client.db(config.dbName);
+export function connect(): Promise<Db> {
+    return new Promise((resolve, reject) => {
+        client.connect()
+        .then((connection) => connection.db(config.dbName))
+        .then((db) => {
+            console.log('Successfully connected to database');
+            resolve(db);
+        })
+        .catch(reject);
 
-        if (!database) {
-            throw new Error('The database ' + config.dbName + ' does not exist')
-        } else {
-            console.log('Connected to database successfully');
-            return database;
-        }
-    } catch(err) {
-        console.error(err);
-    }
+        setTimeout(() => {
+            if (!client.db(config.dbName)) {
+                const connectionError = new Error('Could not connect to MongoDB');
+                console.error(connectionError);
+                reject(connectionError);
+            }
+        }, 5000);
+    });
 }
 
 export function close(): void {
