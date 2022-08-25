@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "description": "A GraphQL API server that provides information about artificial satellites of Earth",
-  "main": "src/server.ts",
+  "main": "dist/server.js",
   "scripts": {
-    "serve": "node dist/server.js",
+    "start": "node dist/server.js",
     "db-init": "node dist/executable/db-init.js",
     "modify-file-data": "node dist/executable/fileDataModifier.js"
   },
